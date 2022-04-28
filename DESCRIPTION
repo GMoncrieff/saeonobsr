@@ -1,0 +1,21 @@
+Package: saeonobsr
+Type: Package
+Title: Query and Download Data from the South African Environmental Observation Network (SAEON) Observations Database
+Version: 0.1.0
+Date: 2022-04-26
+Author: Glenn Moncrieff <glenn@saeon.ac.za>
+Maintainer: Glenn Moncrieff <glenn@saeon.ac.za>
+Description: Provides functions to query available datasets and download selected datasets from the SAEON observations database. Additional functionality allows spatial queries and combining of similar observations from separate datasets.
+License: MIT
+Encoding: UTF-8
+Depends:
+    R (>= 2.15)
+Imports:
+    sf,
+    httr,
+    dplyr,
+    tidyr,
+    lubridate,
+    purrr,
+    magrittr
+RoxygenNote: 7.1.2

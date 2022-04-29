@@ -58,7 +58,7 @@ The code below lists all datasets available for the Cape Peninsula, South Africa
 
 ```{r example}
 library(saeonobsr)
-library(dplyr)
+library(tidyverse)
 library(sf)
 
 #create spatial bounds
@@ -102,5 +102,13 @@ start = '2019-01-01'
 end='2019-12-31'
 obs <- getDatasets(datasets,startDate=start,endDate=end)
 head(obs)
+
+#visualize
+obs %>% ggplot() +
+  geom_line(aes(y = dataValue, x = as.Date(date))) +
+  ggtitle("Daily minimum air temperature for Constantiaberg Peak") +
+  xlab("Date") +
+  ylab(expression("Air Temperature " ( degree*C)))
+
 ```
 

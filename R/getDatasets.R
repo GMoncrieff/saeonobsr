@@ -54,7 +54,10 @@ getDatasets<-function(df,startDate=NULL,endDate=NULL){
     startDate <- lubridate::format_ISO8601(startDate, precision="ymdhms")
   }
 
-
+  if(nrow(df)>10) {
+    check <- menu(c("Yes","No"),title="Warning: over 10 datasets will be downloaded, this may take a long time. Do you want to proceed?")
+    if(check==2) {stop("download cancelled")}
+  }
   #API endpoint
   base_url = "https://observationsapi.saeon.ac.za/Api/Stations"
 

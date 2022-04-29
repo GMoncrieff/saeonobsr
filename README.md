@@ -1,14 +1,26 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# saeonobsr <img src="saeon_hex.png" align="right" alt="" width="120" />
+# saeonobsr <img src="saeon_hex.png" align="right" alt="" width="240" />
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-saeonobsr provides functions to query available datasets and download
-selected datasets from the SAEON observations database.
+saeonobsr provides functions to query and download selected datasets
+from the SAEON observations database.
+
+Two functions are made available to users:
+
+`viewDatasets()`
+
+which lists available datasets with the option to limit results to
+within a region of interest. The result can be filtered and passed to
+
+`getDatasets()`
+
+which downloads the selected datasets and optionally limits results to
+within a specific timeframe
 
 ## Installation
 
@@ -22,20 +34,23 @@ devtools::install_github("GMoncrieff/saeonobsr")
 
 ## Authorisation
 
-To use saeonobsr you need to first register an account SAEON
-observations database. Once registered you need to login and retrieve an
-API token from <https://observations.saeon.ac.za/account/token>. This
-token will be valid for 1 month.
+To use saeonobsr you need to first register an account [SAEON
+observations database](http://observations.saeon.ac.za/). Once
+registered you need to login and retrieve an API token from
+<https://observations.saeon.ac.za/account/token>. This token will be
+valid for 1 month.
 
 ## Quickstart
 
-This is a basic example which shows you a typical usage pattern.
+Before starting set your API access token using
 
-Before starting set your api access token using `Sys.setenv(OBSDB_KEY =
-"xxx")`.
+``` r
+Sys.setenv(OBSDB_KEY = "xxx")`
+```
 
-The code below lists all datasets available for th Cape Peninsula, South
-Africa, and downloads daily minimum temperature data for a single site
+The code below lists all datasets available for the Cape Peninsula,
+South Africa, and downloads daily minimum temperature data for a single
+site
 
 ``` r
 library(saeonobsr)
@@ -95,6 +110,4 @@ head(obs)
 #> 6 103977016 Constantiaberg automa… Constanti… 2019…    -34.1      18.4     10.1 
 #> # … with 5 more variables: description <chr>, phenomenonName <chr>,
 #> #   obs_type_code <chr>, offeringName <chr>, unitName <chr>
-
-#filter 
 ```

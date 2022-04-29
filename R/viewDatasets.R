@@ -18,6 +18,7 @@ viewDatasets <- function(extent=NULL,spatial=FALSE) {
 
   #check args
   if(!is.null(extent) & class(extent)[1]!="sf") stop("Please specify extent as sf object")
+  if(!is.null(extent) & sf::st_crs(extent)$epsg!=4326) stop("Please specify sf object using projection EPSG:4326")
   if(!is.logical(spatial)) stop("spatial argument must be logical")
 
   #API endpount

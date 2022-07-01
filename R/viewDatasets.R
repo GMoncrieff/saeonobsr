@@ -22,7 +22,7 @@ viewDatasets <- function(extent=NULL,spatial=FALSE) {
   if(!is.logical(spatial)) stop("spatial argument must be logical")
 
   #API endpount
-  base_url = "https://observationsapi.saeon.ac.za/Api/InventoryDatasets"
+  base_url = "https://observationsapi.saeon.ac.za/Api/Datasets"
   #API key
   key = Sys.getenv("OBSDB_KEY")
   if(key=="") stop("Failed to find API key. Please set API key using Sys.setenv()")
@@ -34,17 +34,13 @@ viewDatasets <- function(extent=NULL,spatial=FALSE) {
   r <-httr::content(req)
 
   #extract relevant columns
-  dataset_id<-purrr::map(r, "id") %>% as.numeric()
+  dataset_id<-purrr::map(r, "id") %>% as.character()
   siteName<-purrr::map(r, "siteName") %>% as.character()
-  stationId<-purrr::map(r, "stationId") %>% as.character()
   stationName<-purrr::map(r, "stationName") %>% as.character()
-  phenomenonId<-purrr::map(r, "phenomenonId") %>% as.character()
   phenomenonName<-purrr::map(r, "phenomenonName") %>% as.character()
   phenomenonCode<-purrr::map(r, "phenomenonCode") %>% as.character()
-  offeringId<-purrr::map(r, "offeringId") %>% as.character()
   offeringName<-purrr::map(r, "offeringName") %>% as.character()
   offeringCode<-purrr::map(r, "offeringCode") %>% as.character()
-  unitId<-purrr::map(r, "unitId") %>% as.character()
   unitName<-purrr::map(r, "unitName") %>% as.character()
   unitCode<-purrr::map(r, "unitCode") %>% as.character()
   latitude<-purrr::map(r, "latitudeNorth") %>% as.numeric()
@@ -56,15 +52,11 @@ viewDatasets <- function(extent=NULL,spatial=FALSE) {
 
   data <- data.frame(dataset_id,
                      siteName,
-                     stationId,
                      stationName,
-                     phenomenonId,
                      phenomenonName,
                      phenomenonCode,
-                     unitId,
                      unitName,
                      unitCode,
-                     offeringId,
                      offeringName,
                      offeringCode,
                      latitude,
@@ -76,6 +68,8 @@ viewDatasets <- function(extent=NULL,spatial=FALSE) {
     tidyr::unite(col="obs_type_code", phenomenonCode,offeringCode,unitCode,sep="_",remove = FALSE) %>%
     tidyr::unite(col="description", phenomenonName,offeringName,unitName,sep=" - ",remove = FALSE)
 
+  data <- data %>%
+    dplyr::select(-c('phenomenonCode','offeringCode','unitCode'))
 
   #limit extent of results
   if(!is.null(extent)){

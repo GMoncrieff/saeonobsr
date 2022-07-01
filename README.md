@@ -45,7 +45,7 @@ valid for 1 month.
 Before starting set your API access token using
 
 ``` r
-Sys.setenv(OBSDB_KEY = "xxx")`
+Sys.setenv(OBSDB_KEY = "xxx")
 ```
 
 The code below lists all datasets available for the Cape Peninsula,
@@ -54,6 +54,7 @@ site
 
 ``` r
 library(saeonobsr)
+library(ggplot2)
 library(dplyr)
 library(sf)
 
@@ -85,7 +86,7 @@ region <- '{
             ]]]}}]
 }'
 #create sf object
-bounds<-st_read(region,quiet = TRUE)
+bounds <- st_read(region,quiet = TRUE)
 
 #get a list of available datasets
 #then filter to a selected site and observation type
@@ -94,20 +95,30 @@ datasets <- viewDatasets(extent=bounds,spatial = FALSE) %>%
       filter(description == 'Air Temperature - Daily Minimum - Degrees Celsius')
 
 #retrieve the selected datasets for 2019
-start = '2019-01-01'
-end='2019-12-31'
+start <- '2019-01-01'
+end <- '2019-12-31'
 obs <- getDatasets(datasets,startDate=start,endDate=end)
-#> [1] "received dataset with id 137"
+#> [1] "received dataset with id 62f6bee3-4be5-4d2d-5011-08da455c794d"
 head(obs)
-#> # A tibble: 6 × 12
-#>          id instrumentName         sensorName date  latitude longitude dataValue
-#>       <int> <chr>                  <chr>      <chr>    <dbl>     <dbl>     <dbl>
-#> 1 103977006 Constantiaberg automa… Constanti… 2019…    -34.1      18.4     11.1 
-#> 2 103977008 Constantiaberg automa… Constanti… 2019…    -34.1      18.4      8.93
-#> 3 103977010 Constantiaberg automa… Constanti… 2019…    -34.1      18.4      8.77
-#> 4 103977012 Constantiaberg automa… Constanti… 2019…    -34.1      18.4     10.5 
-#> 5 103977014 Constantiaberg automa… Constanti… 2019…    -34.1      18.4     11.6 
-#> 6 103977016 Constantiaberg automa… Constanti… 2019…    -34.1      18.4     10.1 
-#> # … with 5 more variables: description <chr>, phenomenonName <chr>,
-#> #   obs_type_code <chr>, offeringName <chr>, unitName <chr>
+#> # A tibble: 6 × 10
+#>   instrument  sensor date  latitude longitude value phenomenon offering variable
+#>   <chr>       <chr>  <chr>    <dbl>     <dbl> <dbl> <chr>      <chr>    <chr>   
+#> 1 Constantia… Const… 2019…    -34.1      18.4 11.1  Air Tempe… Daily M… Air Tem…
+#> 2 Constantia… Const… 2019…    -34.1      18.4  8.93 Air Tempe… Daily M… Air Tem…
+#> 3 Constantia… Const… 2019…    -34.1      18.4  8.77 Air Tempe… Daily M… Air Tem…
+#> 4 Constantia… Const… 2019…    -34.1      18.4 10.5  Air Tempe… Daily M… Air Tem…
+#> 5 Constantia… Const… 2019…    -34.1      18.4 11.6  Air Tempe… Daily M… Air Tem…
+#> 6 Constantia… Const… 2019…    -34.1      18.4 10.1  Air Tempe… Daily M… Air Tem…
+#> # … with 1 more variable: unit <chr>
+
+#visualize
+plot <- obs %>% ggplot() +
+  geom_line(aes(y = value, x = as.Date(date))) +
+  ggtitle("Daily minimum air temperature for Constantiaberg Peak") +
+  xlab("Date") +
+  ylab(expression("Air Temperature " ( degree*C)))
+
+plot
 ```
+
+<img src="man/figures/README-example-1.png" width="100%" />

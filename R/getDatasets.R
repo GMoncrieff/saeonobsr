@@ -2,7 +2,7 @@
 #'
 #' Requests and downloads datasets from the SAEON observations database
 #'
-#' @param df A data.frame with rows corresponding to datasets to download. Should be generated from \code{\link{viewDatasets}}. Must contain columns `stationID`, `phenomenomId`, `InstrumentId` and `UnitId`
+#' @param df A data.frame with rows corresponding to datasets to download. Should be generated from \code{\link{viewDatasets}}. Must contain column `dataset_id`
 #' @param startDate Start date for observations. Either a date or string with format 'YYYY-MM-DD' or 'YYYY-MM-DD HH-MM-SS'. Defaults to NULL.
 #' @param endDate End date for observations. Either a date or string with format 'YYYY-MM-DD' or 'YYYY-MM-DD HH-MM-SS'. Defaults to NULL.
 #'
@@ -28,7 +28,7 @@ getDatasets<-function(df,startDate=NULL,endDate=NULL){
   #check df
   if(missing(df)) stop("datasets data.frame input missing")
   if(!is.data.frame(df)) stop("datasets input must be a data.frame")
-  if(!all(c("stationId","phenomenonId","unitId","offeringId","dataset_id") %in% colnames(df))) stop("datasets data.frame missing a required column")
+  if(!all(c("dataset_id") %in% colnames(df))) stop("datasets data.frame missing id column")
 
   #check dates, and convert format
   if(!is.null(endDate)){
@@ -59,7 +59,7 @@ getDatasets<-function(df,startDate=NULL,endDate=NULL){
     if(check==2) {stop("download cancelled")}
   }
   #API endpoint
-  base_url = "https://observationsapi.saeon.ac.za/Api/Stations"
+  base_url = "https://observationsapi.saeon.ac.za/Api/Datasets"
 
   #API key
   key = Sys.getenv("OBSDB_KEY")
@@ -80,11 +80,9 @@ getDatasets<-function(df,startDate=NULL,endDate=NULL){
 
   #tidy up result
   df_combine <- dplyr::bind_rows(list_df, .id = "column_label") %>%
-    dplyr::select(id,instrumentName,sensorName,date = valueDate,latitude,longitude,dataValue,phenomenonName,phenomenonCode,offeringName,offeringCode,unitName,unitCode) %>%
-    tidyr::unite(col="obs_type_code", phenomenonCode,offeringCode,unitCode,sep="_",remove=TRUE) %>%
-    tidyr::unite(col="description", phenomenonName,offeringName,unitName,sep=" - ",remove=FALSE)
+    dplyr::select(instrument,sensor,date,latitude,longitude,value,phenomenon,offering,variable,unit)
 
-  if(length(unique(df_combine$obs_type_code))>1){
+  if(length(unique(df_combine$variable))>1){
     warning("dataframe contains muliple observation types")
   }
 

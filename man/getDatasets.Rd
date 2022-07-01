@@ -7,7 +7,7 @@
 getDatasets(df, startDate = NULL, endDate = NULL)
 }
 \arguments{
-\item{df}{A data.frame with rows corresponding to datasets to download. Should be generated from \code{\link{viewDatasets}}. Must contain columns `stationID`, `phenomenomId`, `InstrumentId` and `UnitId`}
+\item{df}{A data.frame with rows corresponding to datasets to download. Should be generated from \code{\link{viewDatasets}}. Must contain column `dataset_id`}
 
 \item{startDate}{Start date for observations. Either a date or string with format 'YYYY-MM-DD' or 'YYYY-MM-DD HH-MM-SS'. Defaults to NULL.}
 

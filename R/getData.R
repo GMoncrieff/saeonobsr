@@ -1,9 +1,9 @@
 #' Get data by making GET request to obs db API
 #' @keywords internal
 #'
-getData<-function(base_url, auth_key, dataset_id, stationId, phenomenonId, offeringId, unitId,...){
+getData<-function(base_url, auth_key, dataset_id,...){
 
-  url_obs = paste0(base_url,"/",stationId,"/Observations/",phenomenonId,"/",offeringId,"/",unitId)
+  url_obs = paste0(base_url,"/",dataset_id,"/Observations")
 
   req <-  httr::GET(url_obs, httr::add_headers('Authorization' = auth_key))
 

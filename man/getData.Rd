@@ -4,16 +4,7 @@
 \alias{getData}
 \title{Get data by making GET request to obs db API}
 \usage{
-getData(
-  base_url,
-  auth_key,
-  dataset_id,
-  stationId,
-  phenomenonId,
-  offeringId,
-  unitId,
-  ...
-)
+getData(base_url, auth_key, dataset_id, ...)
 }
 \description{
 Get data by making GET request to obs db API

@@ -1,14 +1,11 @@
 #' Get data by making POST request to obs db API
 #' @keywords internal
 #'
-postData<-function(base_url, auth_key, dataset_id, stationId, phenomenonId, offeringId, unitId, startDate,endDate,...){
+postData<-function(base_url, auth_key, dataset_id, startDate,endDate,...){
 
-  url_obs = paste0(base_url,"/",stationId,"/Observations")
+  url_obs = paste0(base_url,"/",dataset_id,"/Observations")
 
-  body_req=list(phenomenonId = phenomenonId,
-                offeringId = offeringId,
-                unitId= unitId,
-                startDate=startDate,
+  body_req=list(startDate=startDate,
                 endDate= endDate)
 
   req <- httr::POST(url_obs, httr::add_headers('Authorization' = auth_key), body = body_req,encode="json")

@@ -4,18 +4,7 @@
 \alias{postData}
 \title{Get data by making POST request to obs db API}
 \usage{
-postData(
-  base_url,
-  auth_key,
-  dataset_id,
-  stationId,
-  phenomenonId,
-  offeringId,
-  unitId,
-  startDate,
-  endDate,
-  ...
-)
+postData(base_url, auth_key, dataset_id, startDate, endDate, ...)
 }
 \description{
 Get data by making POST request to obs db API

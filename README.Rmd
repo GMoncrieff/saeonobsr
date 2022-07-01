@@ -51,14 +51,15 @@ To use saeonobsr you need to first register an account [SAEON observations datab
 Before starting set your API access token using
 
 ```{r eval=FALSE}
-Sys.setenv(OBSDB_KEY = "xxx")`
+Sys.setenv(OBSDB_KEY = "xxx")
 ```
 
 The code below lists all datasets available for the Cape Peninsula, South Africa, and downloads daily minimum temperature data for a single site
 
 ```{r example}
 library(saeonobsr)
-library(tidyverse)
+library(ggplot2)
+library(dplyr)
 library(sf)
 
 #create spatial bounds
@@ -89,7 +90,7 @@ region <- '{
             ]]]}}]
 }'
 #create sf object
-bounds<-st_read(region,quiet = TRUE)
+bounds <- st_read(region,quiet = TRUE)
 
 #get a list of available datasets
 #then filter to a selected site and observation type
@@ -98,17 +99,19 @@ datasets <- viewDatasets(extent=bounds,spatial = FALSE) %>%
       filter(description == 'Air Temperature - Daily Minimum - Degrees Celsius')
 
 #retrieve the selected datasets for 2019
-start = '2019-01-01'
-end='2019-12-31'
+start <- '2019-01-01'
+end <- '2019-12-31'
 obs <- getDatasets(datasets,startDate=start,endDate=end)
 head(obs)
 
 #visualize
-obs %>% ggplot() +
-  geom_line(aes(y = dataValue, x = as.Date(date))) +
+plot <- obs %>% ggplot() +
+  geom_line(aes(y = value, x = as.Date(date))) +
   ggtitle("Daily minimum air temperature for Constantiaberg Peak") +
   xlab("Date") +
   ylab(expression("Air Temperature " ( degree*C)))
+
+plot
 
 ```
 

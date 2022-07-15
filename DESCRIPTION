@@ -21,3 +21,6 @@ Imports:
 RoxygenNote: 7.1.2
 URL: https://github.com/GMoncrieff/saeonobsr
 BugReports: https://github.com/GMoncrieff/saeonobsr/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 # saeonobsr <img src="saeon_hex.png" align="right" alt="" width="240" />
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/GMoncrieff/saeonobsr/workflows/R-CMD-check/badge.svg)](https://github.com/GMoncrieff/saeonobsr/actions)
 <!-- badges: end -->
   
   

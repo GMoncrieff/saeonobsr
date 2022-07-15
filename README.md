@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/GMoncrieff/saeonobsr/workflows/R-CMD-check/badge.svg)](https://github.com/GMoncrieff/saeonobsr/actions)
 <!-- badges: end -->
 
 saeonobsr provides functions to query and download selected datasets
